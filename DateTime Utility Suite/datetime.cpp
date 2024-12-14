@@ -1,5 +1,5 @@
 //
-//  Datetime Source.cpp
+//  datetime.cpp
 //  DateTime Utility Suite
 //
 //  Created by Isaac Adeleke on 12/12/24.
@@ -118,5 +118,26 @@ DateTime::DateTime(int year, int month, int day, int hour, int minute, int secon
 int DateTime::differenceInSeconds(const DateTime& dt1, const DateTime& dt2) {
     // Calculate days difference
     int days1 = dt1.date.year * 365 + dt1.date.day;
-    for (int
+    for (int i = 1; i < dt1.date.month; ++i) {
+        days1 += dt1.date.daysInMonth(dt1.date.year, i);
+    }
 
+    int days2 = dt2.date.year * 365 + dt2.date.day;
+    for (int i = 1; i < dt2.date.month; ++i) {
+        days2 += dt2.date.daysInMonth(dt2.date.year, i);
+    }
+
+    int dayDifference = days1 - days2;
+    int timeDifference = (dt1.time.hour * 3600 + dt1.time.minute * 60 + dt1.time.second) -
+                         (dt2.time.hour * 3600 + dt2.time.minute * 60 + dt2.time.second);
+    return dayDifference * 86400 + timeDifference;
+}
+
+std::string DateTime::toString() const {
+    return date.toString() + " " + time.toString();
+}
+
+std::string DateTime::format(const std::string& formatString) const {
+    // Placeholder for custom formatting logic
+    return toString();
+}
