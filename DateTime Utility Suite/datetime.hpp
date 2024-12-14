@@ -1,5 +1,5 @@
 //
-//  Datetime Source.hpp
+//  datetime.hpp
 //  DateTime Utility Suite
 //
 //  Created by Isaac Adeleke on 12/12/24.
@@ -10,7 +10,14 @@
 
 #include <string>
 
-class Time {
+// Base class for common functionality
+class DateTimeBase {
+public:
+    virtual std::string toString() const = 0; // Pure virtual function
+};
+
+// Time class inheriting from DateTimeBase
+class Time : public DateTimeBase {
 public:
     int hour, minute, second;
 
@@ -18,10 +25,11 @@ public:
     void addSeconds(int seconds);
     void addMinutes(int minutes);
     void addHours(int hours);
-    std::string toString() const;
+    std::string toString() const override;
 };
 
-class Date {
+// Date class inheriting from DateTimeBase
+class Date : public DateTimeBase {
 public:
     int year, month, day;
 
@@ -31,16 +39,19 @@ public:
     void addDays(int days);
     void addMonths(int months);
     void addYears(int years);
-    std::string toString() const;
+    std::string toString() const override;
 };
 
-class DateTime {
-public:
+// DateTime class combining Date and Time
+class DateTime : public DateTimeBase {
+private:
     Date date;
     Time time;
 
+public:
     DateTime(int year, int month, int day, int hour, int minute, int second);
     static int differenceInSeconds(const DateTime& dt1, const DateTime& dt2);
+    std::string toString() const override;
     std::string format(const std::string& formatString) const;
 };
 
